@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregnancy Role Sorting Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { display: flex; justify-content: space-around; margin-top: 20px; flex-wrap: wrap; }
+        .category { border: 2px solid black; width: 30%; min-height: 200px; padding: 10px; }
+        .card { background: lightgray; padding: 10px; margin: 5px; cursor: grab; }
+        #gp { background-color: #f8d7da; } /* Light red for GP */
+        #midwife { background-color: #d4edda; } /* Light green for Midwife */
+        #obstetrician { background-color: #cce5ff; } /* Light blue for Obstetrician */
+    </style>
+</head>
+<body>
+    <h2>Sort the cards into the correct category</h2>
+    <div class="container">
+        <div class="category" id="gp" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>GP (General Practitioner)</h3>
+        </div>
+        <div class="category" id="midwife" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>Midwife</h3>
+        </div>
+        <div class="category" id="obstetrician" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>Obstetrician</h3>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card1" data-category="gp">Can refer pregnant woman to other professionals, if necessary.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card2" data-category="gp">Provides antenatal and postnatal care.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card3" data-category="obstetrician">Becomes involved if the pregnant woman has a health condition or if there are concerns about the pregnancy.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card4" data-category="midwife">Provides clinical examinations and screening.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card5" data-category="obstetrician">A doctor who specialises in all aspects of pregnancy and childbirth.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card6" data-category="midwife">Runs parenting classes and discusses birth options.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card7" data-category="gp">Will ask the woman about her mental health during and after pregnancy.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card8" data-category="midwife">A medical professional who is specially trained in pregnancy and childbirth.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card9" data-category="obstetrician">Not usually involved unless there are problems.</div>
+        <div class="card" draggable="true" ondragstart="drag(event)" id="card10" data-category="gp">Likely to be the first person a woman sees when she discovers she is pregnant.</div>
+    </div>
+    <script>
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+        function drop(event) {
+            event.preventDefault();
+            let data = event.dataTransfer.getData("text");
+            let draggedElement = document.getElementById(data);
+            let correctCategory = draggedElement.getAttribute("data-category");
+            if (event.target.id === correctCategory) {
+                event.target.appendChild(draggedElement);
+                draggedElement.style.backgroundColor = "lightgreen"; // Indicate correct placement
+            } else {
+                draggedElement.style.backgroundColor = "lightcoral"; // Indicate incorrect placement
+                setTimeout(() => { draggedElement.style.backgroundColor = "lightgray"; }, 1000); // Reset color
+            }
+        }
+    </script>
+</body>
+</html>
